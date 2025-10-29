@@ -1,0 +1,598 @@
+id_x,number,title,body_x,agent,user_id,user_x,state_x,created_at,closed_at,merged_at,repo_id,repo_url,html_url,id_y,pr_id,user_y,user_type,state_y,submitted_at,body_y
+3231949586,32656,feat(swagger): Add Swagger annotations to Batch 1 - Core Authentication & User Management,"## Summary
+Progressive implementation of Swagger/OpenAPI annotations for REST endpoints - Batch 1
+
+This PR adds comprehensive Swagger annotations to **15 REST resource classes** focused on core authentication and user management APIs that most applications depend on.
+
+## 🔗 Foundation Dependency
+**⚠️ This PR depends on the infrastructure established in PR #32561**
+
+- **Foundation PR**: [#32561 - Progressive Swagger annotations infrastructure](https://github.com/dotCMS/core/pull/32561)
+- **Requirement**: PR #32561 must be merged before this PR can be reviewed/merged
+- **Why**: This PR uses the `@SwaggerCompliant` annotation and progressive testing framework created in #32561
+
+## ⚠️ IMPORTANT: Batch Rollout Process
+**This PR is part of a progressive 8-batch rollout strategy established in PR #32561.**
+
+- 🔧 **Foundation**: [PR #32561](https://github.com/dotCMS/core/pull/32561) - Must be merged first
+- ✅ **Batch 1**: Ready for review after foundation is merged (this PR)
+- ⏳ **Batch 2**: [PR #32657](https://github.com/dotCMS/core/pull/32657) - Keep in draft until Batch 1 is merged
+- ⏳ **Batch 3-8**: Keep in draft until previous batch is merged
+- ⏳ **Batch 9**: [PR #32664](https://github.com/dotCMS/core/pull/32664) - Keep in draft until Batch 8 is merged
+
+**Do not remove draft state from subsequent batches until the previous batch has been successfully merged.**
+
+## 🎯 Automatic Testing Integration
+This PR leverages the infrastructure from #32561 to enable **automatic testing**:
+
+- ✅ **Before this PR**: These 15 resources are not tested by compliance tests
+- ✅ **After this PR**: Resources are automatically discovered and tested via `@SwaggerCompliant` annotations
+- ✅ **Cumulative**: Future batches will test these resources plus their new ones
+
+```bash
+# Test only Batch 1 classes (using infrastructure from #32561)
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationComplianceTest -Dtest.batch.max=1
+```
+
+## Batch 1: Core Authentication & User Management (15 classes)
+**Theme**: Essential user and authentication APIs that most applications depend on
+
+### Authentication Resources (7 classes)
+- `AuthenticationResource` - Core authentication endpoints
+- `ApiTokenResource` - API token management  
+- `LoginFormResource` - Login form handling
+- `LogoutResource` - User logout functionality
+- `CreateJsonWebTokenResource` - JWT token creation
+- `ForgotPasswordResource` - Password reset requests
+- `ResetPasswordResource` - Password reset completion
+
+### User Management Resources (3 classes)
+- `UserResource` - User CRUD operations
+- `PersonaResource` - User persona management
+- `PersonalizationResource` - User personalization settings
+
+### System Role Resources (2 classes)
+- `RoleResource` - Role management
+- `PermissionResource` - Permission handling
+
+### Legacy User Resources (3 classes)
+- `UserResource` (legacy) - Legacy user operations
+- `RoleResource` (legacy) - Legacy role operations
+- `DotSamlResource` - SAML authentication
+
+## 🧪 Testing Strategy
+Uses the progressive testing framework established in #32561:
+
+```bash
+# Test only Batch 1 classes (after #32561 is merged)
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationComplianceTest -Dtest.batch.max=1
+
+# Test annotation validation
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationValidationTest -Dtest.batch.max=1
+```
+
+## 📋 Example Annotation Usage
+This PR adds `@SwaggerCompliant` annotations (from #32561) to mark resources as properly documented:
+
+```java
+@SwaggerCompliant(value = ""Core authentication and user management APIs"", batch = 1)
+@Tag(name = ""Authentication"")
+@Path(""/v1/authentication"")
+public class AuthenticationResource {
+    // Properly annotated endpoints...
+}
+```
+
+## 🎯 Impact
+- ✅ Improves API documentation for core authentication flows
+- ✅ Enables automatic testing of these 15 resources (via #32561 infrastructure)
+- ✅ Enables better developer experience with OpenAPI spec generation
+- ✅ Maintains backward compatibility
+- ✅ Follows established annotation patterns and standards
+
+## 📊 Progress Tracking
+This PR is **Batch 1 of 8** in the progressive rollout:
+- **Total Resources**: 115 across 8 batches
+- **This Batch**: 15 resources (13% of total)
+- **Next**: Batch 2 (Content Management Core) - 14 resources
+
+## 🔗 Related PRs
+- **Foundation**: [#32561 - Progressive Swagger annotations infrastructure](https://github.com/dotCMS/core/pull/32561) ← **Must merge first**
+- **Next**: [#32657 - Batch 2 (Content Management Core)](https://github.com/dotCMS/core/pull/32657)
+- **Complete chain**: See PR #32561 for full rollout plan
+
+## ⚠️ Merge Requirements
+1. **Foundation PR #32561 must be merged first**
+2. This PR can then be reviewed and merged
+3. After this PR is merged, remove draft state from Batch 2 PR #32657
+4. Continue sequential rollout through Batch 8
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>",Claude_Code,1236198,spbolton,open,2025-07-15T11:46:41Z,,,3729629.0,https://api.github.com/repos/dotCMS/core,https://github.com/dotCMS/core/pull/32656,3019966388,3231949586,cursor[bot],Bot,COMMENTED,2025-07-15T11:51:49Z,"<details open>
+<summary><h3>Bug: Generic Type Mismatch in Error View Classes</h3></summary>
+
+`ResponseEntityEventErrorView` and `ResponseEntityFilterErrorView` classes have a type parameter mismatch. Both extend `ResponseEntityView<String>` but their constructors are initialized with `List<ErrorEntity>`, which is incompatible with the declared generic type.
+
+<p></p>
+
+<details>
+<summary><code>dotCMS/src/main/java/com/dotcms/rest/api/v1/event/ResponseEntityEventErrorView.java#L12-L17</code></summary>
+
+https://github.com/dotCMS/core/blob/23507a1d9754fbb12c216240b6c5a220def570e8/dotCMS/src/main/java/com/dotcms/rest/api/v1/event/ResponseEntityEventErrorView.java#L12-L17
+
+</details>
+
+<details>
+<summary><code>dotCMS/src/main/java/com/dotcms/rest/api/v1/pushpublish/ResponseEntityFilterErrorView.java#L12-L17</code></summary>
+
+https://github.com/dotCMS/core/blob/23507a1d9754fbb12c216240b6c5a220def570e8/dotCMS/src/main/java/com/dotcms/rest/api/v1/pushpublish/ResponseEntityFilterErrorView.java#L12-L17
+
+</details>
+
+<a href=""https://cursor.com/open?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9DVVJTT1IiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90Ojk4NjE1MmVmLTUzNmItNDhjYy05NzU0LTk4YmUzMjAzYjg5NSIsImVuY3J5cHRpb25LZXkiOiJsbXMzRG13cEpXYzdaX0s2NXM4LUZGNlZ1cHh5Q0tEZG14aTJHcllMNmZ3IiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSJ9LCJpYXQiOjE3NTI1ODAzMDksImV4cCI6MTc1MzE4NTEwOX0.ar4nSYt9VWS1hY2cTLAL28WpjxsaX0hLTclqmz0jt88t3u7n_I0z9HHBQqcRCjuMBW-fklD_jNMso78AwQHEYUYpPHdQE3LZAy1fdjyIi2XPirgQGgF9xkrLgbS7b04eig82UMAr6-am3jeQWSUU9LFyf8_43xjFx-KGzMhdX0rxS1wBD2asDsNZ1Zn2a0F8AFjwPdKadOUHqoFswXFTSR6rzywjNxDLvNH7vHUcdKQtqzqx7uRgzchr9orf0wIZGoVOZaTlAzfuRBjeJaAZc5DhPZElYdb7F2C_gtbGr5cE7FDGCFXczXMjmyZX9C5-KAPGFoGR-IbWoqaXdRXg1Q"">Fix in Cursor</a> • <a href=""https://cursor.com/agents?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9XRUIiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90Ojk4NjE1MmVmLTUzNmItNDhjYy05NzU0LTk4YmUzMjAzYjg5NSIsImVuY3J5cHRpb25LZXkiOiJsbXMzRG13cEpXYzdaX0s2NXM4LUZGNlZ1cHh5Q0tEZG14aTJHcllMNmZ3IiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSIsInJlcG9Pd25lciI6ImRvdENNUyIsInJlcG9OYW1lIjoiY29yZSIsInByTnVtYmVyIjozMjY1NiwiY29tbWl0U2hhIjoiMjM1MDdhMWQ5NzU0ZmJiMTJjMjE2MjQwYjZjNWEyMjBkZWY1NzBlOCJ9LCJpYXQiOjE3NTI1ODAzMDksImV4cCI6MTc1MzE4NTEwOX0.hopjUhJ6wFJGDEi1u9j4pwG6eurYDS-W1OoKXqQpeNAIxAMKesiFvLVPm1CdzRUQ0q9U_y7mDKKy5xK38zPz4xePwdhGi-N_W5ARLVNVg4NtbdhM8fBNmH5f9BMdU_3YNChEyAs4UcAIOMU4jgdTlMRpEIF5GLehoe0oxQhbU6ThLcDmuGdP4uLw9-Q2t5JW26QzG5sqBFwBUfErs-OuWJZzMUYEGsOzB2ullnDfPUS1fofUmGhKsTlmk_dd4sKnrTo2ze9s8k83ccicrNunBAUM__lAGIukXucnvmDKgi32DjmhqgsCsvksYnyefUZ7R1TE-HD5vCvBBqfA9b93eg"">Fix in Web</a>
+
+</details>
+
+---
+
+<details open>
+<summary><h3>Bug: Incorrect Parameter Order in Constructors</h3></summary>
+
+The constructors for `ResponseEntityTagOperationView` and `ResponseEntityTagInodeOperationView` pass parameters in the wrong order to their `ResponseEntityView` superclass. `errors` is passed as the first argument, but the entity (e.g., `additionalData` or `tagInodes`) should be the first argument, followed by `errors`.
+
+<p></p>
+
+<details>
+<summary><code>dotCMS/src/main/java/com/dotcms/rest/ResponseEntityTagOperationView.java#L13-L18</code></summary>
+
+https://github.com/dotCMS/core/blob/23507a1d9754fbb12c216240b6c5a220def570e8/dotCMS/src/main/java/com/dotcms/rest/ResponseEntityTagOperationView.java#L13-L18
+
+</details>
+
+<details>
+<summary><code>dotCMS/src/main/java/com/dotcms/rest/ResponseEntityTagInodeOperationView.java#L13-L17</code></summary>
+
+https://github.com/dotCMS/core/blob/23507a1d9754fbb12c216240b6c5a220def570e8/dotCMS/src/main/java/com/dotcms/rest/ResponseEntityTagInodeOperationView.java#L13-L17
+
+</details>
+
+<a href=""https://cursor.com/open?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9DVVJTT1IiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OjQ3ZDc5MjkxLTUyMjgtNGZlMi1iNWZmLTViMTFjYWU3MjNmYyIsImVuY3J5cHRpb25LZXkiOiJJVWxvME4yUkoxNnRaLThNTUFfTEFSc1BkaW80akxmVS1KWDNSeWJVRlhJIiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSJ9LCJpYXQiOjE3NTI1ODAzMDksImV4cCI6MTc1MzE4NTEwOX0.ahBr8d8w9vamBTNSKy2zAD1GaVJlhmCY0u3PcLR2uLWzbg4UTJFpFOCugFIFCGVviL8SX8sfKVxrNdp2nR5YOHZgL27UEans3mqFE4Ic-05GJ2xZNS2fMlMy03kaqPRVxb5T-xGto1ukvEge_6fi6Eh-Pvh4sTlDVpG1DFld9hYRmSnr_nZ7nttFUNlzXKhKRoJaqqMo8HeMHVqox7v2sHgQio74IF4lQS2nKJmb-BirNm_Y70GE4TE5lM6rDRob9O7d7gG6-90jCTe7ds0ms5yFYX9LFa7UYyQuysQjbROg2fwDtOMacfVqK9BIJbDysRKTSuHBeNaRsRWwuW0l-Q"">Fix in Cursor</a> • <a href=""https://cursor.com/agents?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9XRUIiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OjQ3ZDc5MjkxLTUyMjgtNGZlMi1iNWZmLTViMTFjYWU3MjNmYyIsImVuY3J5cHRpb25LZXkiOiJJVWxvME4yUkoxNnRaLThNTUFfTEFSc1BkaW80akxmVS1KWDNSeWJVRlhJIiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSIsInJlcG9Pd25lciI6ImRvdENNUyIsInJlcG9OYW1lIjoiY29yZSIsInByTnVtYmVyIjozMjY1NiwiY29tbWl0U2hhIjoiMjM1MDdhMWQ5NzU0ZmJiMTJjMjE2MjQwYjZjNWEyMjBkZWY1NzBlOCJ9LCJpYXQiOjE3NTI1ODAzMDksImV4cCI6MTc1MzE4NTEwOX0.CFtP6s2xVie6cusJ6IpkL1UpdSreaDNUFsTygMPUGRbn5Gi8s6PIUgpNCQahT-YX3odOPKhW98ShuqEz7tsd5fW5qyX8O03On5qFFRtVESJjg-PPBNgfawpOWG8UNCmmCVyxn-SyUSNFhaWZHZjB3bUh1sWlUsgb0Cu7eQmieNEz2bEY-4zm5QdC7t4g9jHGlCfhjNNlNVJZMbflnRDXzDodo5w86DvfjRSl-5oFa1fZANbaGq_DdawFZvdpg3W3RBOEhwnjTHwvP9YE1mwPLIyK-eEM8vPHbidUIGsTykJermTJkrqtQk5wGonoj5GQBvfNjKO_FhcA4AcOyHE18g"">Fix in Web</a>
+
+</details>
+
+---
+
+<details open>
+<summary><h3>Bug: Incorrect `operationId` Suffix in `UserResource`</h3></summary>
+
+The `operationId` attribute within the `@Operation` annotation for the `update` method in `UserResource` is incorrectly set to ""update_9"". This suffix is an extraneous, likely auto-generated or debugging remnant, and should be corrected to ""update"" for proper OpenAPI specification.
+
+<p></p>
+
+<details>
+<summary><code>dotCMS/src/test/java/com/dotcms/rest/RestEndpointAnnotationComplianceTest.java#L731-L732</code></summary>
+
+https://github.com/dotCMS/core/blob/23507a1d9754fbb12c216240b6c5a220def570e8/dotCMS/src/test/java/com/dotcms/rest/RestEndpointAnnotationComplianceTest.java#L731-L732
+
+</details>
+
+<details>
+<summary><code>dotCMS/src/main/java/com/dotcms/rest/api/v1/user/UserResource.java#L729-L730</code></summary>
+
+https://github.com/dotCMS/core/blob/23507a1d9754fbb12c216240b6c5a220def570e8/dotCMS/src/main/java/com/dotcms/rest/api/v1/user/UserResource.java#L729-L730
+
+</details>
+
+<a href=""https://cursor.com/open?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9DVVJTT1IiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OmJiYjZkMjUyLWU4ODYtNDBiNy1iMzdhLWEyZGMyZThhOGM1ZSIsImVuY3J5cHRpb25LZXkiOiIyRUVwT3FfSjVqdks2LWtEVkVsc21CLWhrclVkSDhnSEl5c3QtZ2tJaUZZIiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSJ9LCJpYXQiOjE3NTI1ODAzMDksImV4cCI6MTc1MzE4NTEwOX0.Ds4qmcpBZ8vYcJw2O-rt9lbbQ0HFGeyMGcAscf7eL8YYJARzcinqe00_RUfrkfsSkgk4ox9S4ISxNCdkTAvzYi8JPtMBvsZVjlo8Fk2WdU6760DVgKg5x-POeZsl49GcYW-Uvls-3vq9GMdV6EWZ8RxtRsFH5KfEglBdTfkDALDhyOrf1gq6hMCLXnRc5yHJOw-hN6MD4bLDEK6d4iT5Og9Ld_xpLKzcje4qxgzDjDyAGbyTGE7fLKY2EF_LIRae0VPL2MY-GEjk3kJZbZUvfuA8r4FcuOBL82mJUY11k2M6jDw92HhbqPIdFpbkQypg5HEdmiSYxkIPhUJx96inqQ"">Fix in Cursor</a> • <a href=""https://cursor.com/agents?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9XRUIiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OmJiYjZkMjUyLWU4ODYtNDBiNy1iMzdhLWEyZGMyZThhOGM1ZSIsImVuY3J5cHRpb25LZXkiOiIyRUVwT3FfSjVqdks2LWtEVkVsc21CLWhrclVkSDhnSEl5c3QtZ2tJaUZZIiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSIsInJlcG9Pd25lciI6ImRvdENNUyIsInJlcG9OYW1lIjoiY29yZSIsInByTnVtYmVyIjozMjY1NiwiY29tbWl0U2hhIjoiMjM1MDdhMWQ5NzU0ZmJiMTJjMjE2MjQwYjZjNWEyMjBkZWY1NzBlOCJ9LCJpYXQiOjE3NTI1ODAzMDksImV4cCI6MTc1MzE4NTEwOX0.OS_fPY1PjZlLPw3fojk9MEEvU-dVLazG2PEBIdAAQxhbf_wxvrQvZ9O09N2Pk-dUUY4hZF7q-EOeN7oy2sVDbgpL8lilGp40TOFmGkSF0aCaQPFG758wuktH1o4-b86ulToWU4IEj_4BfU5ZRo8XgK7pZ-Ib4aLT403rkuDxtTyo2lbeb4HXJZa3lH72Yk12f_b860KwaPOQIBG1z0yfT97RCIO6clThVfiYT2uvWwfQ0JSscHmQw1S3xK3VZhBmTQEZKQqnNNoB1Vrg4GxbR50O8v-EhrPH_nFZnJSxeKq6z9u8Kgs-CxYwIYHTGNl_R3Q5hPi_NZ5JpFzTWofmUw"">Fix in Web</a>
+
+</details>
+
+---
+
+_Was this report helpful? Give feedback by reacting with 👍 or 👎_
+"
+3231949586,32656,feat(swagger): Add Swagger annotations to Batch 1 - Core Authentication & User Management,"## Summary
+Progressive implementation of Swagger/OpenAPI annotations for REST endpoints - Batch 1
+
+This PR adds comprehensive Swagger annotations to **15 REST resource classes** focused on core authentication and user management APIs that most applications depend on.
+
+## 🔗 Foundation Dependency
+**⚠️ This PR depends on the infrastructure established in PR #32561**
+
+- **Foundation PR**: [#32561 - Progressive Swagger annotations infrastructure](https://github.com/dotCMS/core/pull/32561)
+- **Requirement**: PR #32561 must be merged before this PR can be reviewed/merged
+- **Why**: This PR uses the `@SwaggerCompliant` annotation and progressive testing framework created in #32561
+
+## ⚠️ IMPORTANT: Batch Rollout Process
+**This PR is part of a progressive 8-batch rollout strategy established in PR #32561.**
+
+- 🔧 **Foundation**: [PR #32561](https://github.com/dotCMS/core/pull/32561) - Must be merged first
+- ✅ **Batch 1**: Ready for review after foundation is merged (this PR)
+- ⏳ **Batch 2**: [PR #32657](https://github.com/dotCMS/core/pull/32657) - Keep in draft until Batch 1 is merged
+- ⏳ **Batch 3-8**: Keep in draft until previous batch is merged
+- ⏳ **Batch 9**: [PR #32664](https://github.com/dotCMS/core/pull/32664) - Keep in draft until Batch 8 is merged
+
+**Do not remove draft state from subsequent batches until the previous batch has been successfully merged.**
+
+## 🎯 Automatic Testing Integration
+This PR leverages the infrastructure from #32561 to enable **automatic testing**:
+
+- ✅ **Before this PR**: These 15 resources are not tested by compliance tests
+- ✅ **After this PR**: Resources are automatically discovered and tested via `@SwaggerCompliant` annotations
+- ✅ **Cumulative**: Future batches will test these resources plus their new ones
+
+```bash
+# Test only Batch 1 classes (using infrastructure from #32561)
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationComplianceTest -Dtest.batch.max=1
+```
+
+## Batch 1: Core Authentication & User Management (15 classes)
+**Theme**: Essential user and authentication APIs that most applications depend on
+
+### Authentication Resources (7 classes)
+- `AuthenticationResource` - Core authentication endpoints
+- `ApiTokenResource` - API token management  
+- `LoginFormResource` - Login form handling
+- `LogoutResource` - User logout functionality
+- `CreateJsonWebTokenResource` - JWT token creation
+- `ForgotPasswordResource` - Password reset requests
+- `ResetPasswordResource` - Password reset completion
+
+### User Management Resources (3 classes)
+- `UserResource` - User CRUD operations
+- `PersonaResource` - User persona management
+- `PersonalizationResource` - User personalization settings
+
+### System Role Resources (2 classes)
+- `RoleResource` - Role management
+- `PermissionResource` - Permission handling
+
+### Legacy User Resources (3 classes)
+- `UserResource` (legacy) - Legacy user operations
+- `RoleResource` (legacy) - Legacy role operations
+- `DotSamlResource` - SAML authentication
+
+## 🧪 Testing Strategy
+Uses the progressive testing framework established in #32561:
+
+```bash
+# Test only Batch 1 classes (after #32561 is merged)
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationComplianceTest -Dtest.batch.max=1
+
+# Test annotation validation
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationValidationTest -Dtest.batch.max=1
+```
+
+## 📋 Example Annotation Usage
+This PR adds `@SwaggerCompliant` annotations (from #32561) to mark resources as properly documented:
+
+```java
+@SwaggerCompliant(value = ""Core authentication and user management APIs"", batch = 1)
+@Tag(name = ""Authentication"")
+@Path(""/v1/authentication"")
+public class AuthenticationResource {
+    // Properly annotated endpoints...
+}
+```
+
+## 🎯 Impact
+- ✅ Improves API documentation for core authentication flows
+- ✅ Enables automatic testing of these 15 resources (via #32561 infrastructure)
+- ✅ Enables better developer experience with OpenAPI spec generation
+- ✅ Maintains backward compatibility
+- ✅ Follows established annotation patterns and standards
+
+## 📊 Progress Tracking
+This PR is **Batch 1 of 8** in the progressive rollout:
+- **Total Resources**: 115 across 8 batches
+- **This Batch**: 15 resources (13% of total)
+- **Next**: Batch 2 (Content Management Core) - 14 resources
+
+## 🔗 Related PRs
+- **Foundation**: [#32561 - Progressive Swagger annotations infrastructure](https://github.com/dotCMS/core/pull/32561) ← **Must merge first**
+- **Next**: [#32657 - Batch 2 (Content Management Core)](https://github.com/dotCMS/core/pull/32657)
+- **Complete chain**: See PR #32561 for full rollout plan
+
+## ⚠️ Merge Requirements
+1. **Foundation PR #32561 must be merged first**
+2. This PR can then be reviewed and merged
+3. After this PR is merged, remove draft state from Batch 2 PR #32657
+4. Continue sequential rollout through Batch 8
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>",Claude_Code,1236198,spbolton,open,2025-07-15T11:46:41Z,,,3729629.0,https://api.github.com/repos/dotCMS/core,https://github.com/dotCMS/core/pull/32656,3078120806,3231949586,cursor[bot],Bot,COMMENTED,2025-08-01T07:47:50Z,"<details open>
+<summary><h3>Bug: GET Methods Missing `@Consumes` Annotation</h3></summary>
+
+The `@Consumes` annotation was removed from `VTLResource`'s GET methods (e.g., `get`, `dynamicGet`) that accept request body parameters. This prevents JAX-RS from properly deserializing the request body, leading to null or empty body data and breaking VTL template processing functionality.
+
+<p></p>
+
+<details>
+<summary><code>dotCMS/src/main/java/com/dotcms/rest/api/v1/vtl/VTLResource.java#L74-L100</code></summary>
+
+https://github.com/dotCMS/core/blob/e0d79b3714a9d5de4a1a5a6600b5970a942852e9/dotCMS/src/main/java/com/dotcms/rest/api/v1/vtl/VTLResource.java#L74-L100
+
+</details>
+
+<details>
+<summary><code>dotCMS/src/main/java/com/dotcms/rest/api/v1/vtl/VTLResource.java#L348-L354</code></summary>
+
+https://github.com/dotCMS/core/blob/e0d79b3714a9d5de4a1a5a6600b5970a942852e9/dotCMS/src/main/java/com/dotcms/rest/api/v1/vtl/VTLResource.java#L348-L354
+
+</details>
+
+<a href=""https://cursor.com/open?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9DVVJTT1IiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OmY3OWUyYmM4LWJiYjktNDFhNS1iNDEwLWM4ZmQwNWY0ZTAwZSIsImVuY3J5cHRpb25LZXkiOiJnWDBTWVR2Szh4dVAzYmZ1Q2xZaGh0d3JyV1VzTlZkdnZlbEs4cW9XUUI0IiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSJ9LCJpYXQiOjE3NTQwMzQ0NzAsImV4cCI6MTc1NDYzOTI3MH0.k3kTg0sKCHrVmqLIsF37Y0TPq6ccxNl3WfIZh_ASwClscI-ppLzJDIui9kDzQWf7RkpSl7tFdZ29yvt0wNTWGc49OsjG5P3GNAlcr4RUgdIcBJFfOcCGjF-Vl7-POQf9Vajv3m9h5Dz0l-c8ia2WeyGH7wHOjYp8DJQnmmXOxFAPE1NC2GEHtGgfZYwCfh8OSVuKP2CKbmTejqhDzxHsUAgQgBl4UcqxQ_Yr1DUoUUsF57Hn7whRyuCf3T-oIkDy8QlBlUtZWV2xGHRVTvV1FkjC14YrqemsRCVYPB7V7XzO6WJqi3nGr3vWOYH_9t9ivn6iajXad3aTNU5BhI4HPA"">
+  <picture>
+    <source media=""(prefers-color-scheme: dark)"" srcset=""https://cursor.com/fix-in-cursor-dark.svg"">
+    <source media=""(prefers-color-scheme: light)"" srcset=""https://cursor.com/fix-in-cursor-light.svg"">
+    <img alt=""Fix in Cursor"" src=""https://cursor.com/fix-in-cursor.svg"">
+  </picture>
+</a> <a href=""https://cursor.com/agents?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9XRUIiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OmY3OWUyYmM4LWJiYjktNDFhNS1iNDEwLWM4ZmQwNWY0ZTAwZSIsImVuY3J5cHRpb25LZXkiOiJnWDBTWVR2Szh4dVAzYmZ1Q2xZaGh0d3JyV1VzTlZkdnZlbEs4cW9XUUI0IiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSIsInJlcG9Pd25lciI6ImRvdENNUyIsInJlcG9OYW1lIjoiY29yZSIsInByTnVtYmVyIjozMjY1NiwiY29tbWl0U2hhIjoiZTBkNzliMzcxNGE5ZDVkZTRhMWE1YTY2MDBiNTk3MGE5NDI4NTJlOSJ9LCJpYXQiOjE3NTQwMzQ0NzAsImV4cCI6MTc1NDYzOTI3MH0.MRCp4iMDXN5gQZfPJoievCLWIShkaiLkiQ2qlY-5tkczNJQp-hFZub8E67cLLnOO8lC757B5TC04WuCYNw_kN5H13i8hqnQQ7QvTJp2Cd2zBPJ93MJ45a0PY6lcCCzmhPvnsN02wxtKS23FNL5suNH6CWZ-tBTPfbcKnuwCtdN7BGP0QPfnzlYvrx_hCbF6psIh0hHafu7a37uvkuHlIQPjJcaVagvpeug9nzbsX536FqShzvduMBg9k3AvNQVYAM2GX6OfPV2UURgPOrpS2VaJ9nQFauvneBvi_I0oSFiALqTdkgL0eJvaWkdVWOR89D4JfiNci8wW3T3-D6S6MMQ"">
+  <picture>
+    <source media=""(prefers-color-scheme: dark)"" srcset=""https://cursor.com/fix-in-web-dark.svg"">
+    <source media=""(prefers-color-scheme: light)"" srcset=""https://cursor.com/fix-in-web-light.svg"">
+    <img alt=""Fix in Web"" src=""https://cursor.com/fix-in-web.svg"">
+  </picture>
+</a>
+
+</details>
+
+---
+
+<details open>
+<summary><h3>Bug: Missing Annotation Causes VTL Processing Failure</h3></summary>
+
+The `@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})` annotation was removed from the `dynamicGet` methods. These methods still accept a `String bodyMapString` parameter, but without the `@Consumes` annotation, JAX-RS cannot properly deserialize request bodies (containing VTL templates) into this parameter, causing VTL template processing to fail.
+
+<p></p>
+
+<details>
+<summary><code>dotCMS/src/main/java/com/dotcms/rest/api/v1/vtl/VTLResource.java#L326-L355</code></summary>
+
+https://github.com/dotCMS/core/blob/e0d79b3714a9d5de4a1a5a6600b5970a942852e9/dotCMS/src/main/java/com/dotcms/rest/api/v1/vtl/VTLResource.java#L326-L355
+
+</details>
+
+<a href=""https://cursor.com/open?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9DVVJTT1IiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OmEyYmQ2ZDU0LTk1MTUtNDNlOC1hOWZmLWFmNjhmM2Q2OWI4NiIsImVuY3J5cHRpb25LZXkiOiJUVTZiektZV0NjeHRqRGVSOUNUaHNlOU9Bb2JHMmJaWEhnWHFqMnBDaHZnIiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSJ9LCJpYXQiOjE3NTQwMzQ0NzAsImV4cCI6MTc1NDYzOTI3MH0.SJHxqwLMz-K3gsrvkqgVt-Nxn6g4fodGzUKGKIksGZJ50FPEQd1yACbZlRkeWPyRbPWtwSrLbytuNRvLm9Tf5A8O9xWfC7YRDC7PkVQzNXO9V2r-VOkBH8LXWrw6eNylL-bQRrCDXx54sQ2FJ2eBXT_a0mnxemGVfureCCJS42Fm8wsFT1Sh3BgEb4xp8NWlFdj9Oxs-VwiaoI_Knf_987ZgBtGALybvziuOzfB-SAEyeYo1HwHN_tEMLA8I5CJPDgGtL4HCZcNMtVigvXjzfDl-LTwGGur1ZND5Isrdn38RDJh6ol2hshubDhYBJp_NqYgyu0AsGH72tytG7LU7Kg"">
+  <picture>
+    <source media=""(prefers-color-scheme: dark)"" srcset=""https://cursor.com/fix-in-cursor-dark.svg"">
+    <source media=""(prefers-color-scheme: light)"" srcset=""https://cursor.com/fix-in-cursor-light.svg"">
+    <img alt=""Fix in Cursor"" src=""https://cursor.com/fix-in-cursor.svg"">
+  </picture>
+</a> <a href=""https://cursor.com/agents?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MSJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9XRUIiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OmEyYmQ2ZDU0LTk1MTUtNDNlOC1hOWZmLWFmNjhmM2Q2OWI4NiIsImVuY3J5cHRpb25LZXkiOiJUVTZiektZV0NjeHRqRGVSOUNUaHNlOU9Bb2JHMmJaWEhnWHFqMnBDaHZnIiwiYnJhbmNoIjoiaXNzdWUtMzI1MjktYmF0Y2gtMSIsInJlcG9Pd25lciI6ImRvdENNUyIsInJlcG9OYW1lIjoiY29yZSIsInByTnVtYmVyIjozMjY1NiwiY29tbWl0U2hhIjoiZTBkNzliMzcxNGE5ZDVkZTRhMWE1YTY2MDBiNTk3MGE5NDI4NTJlOSJ9LCJpYXQiOjE3NTQwMzQ0NzAsImV4cCI6MTc1NDYzOTI3MH0.ajuliZZylF81l3W13coFdRzLVax9AA1DLFKR_VJi9_YFZVE8fllwCQgyKyjZp4SoaPtZmUq62uMZ69aLvDflyQhewfsn44RCvZJeYsgvokqTUu-sUq9dhbFFEB4GhdDg_TCnVYogo3WfDDaK307VMHGCStX_kVhbFmwzVRCd4ksD3sEJ1WfvLl6zhIIbTV-i0TgBdsouD9Z7IRWV6Z4OXDlEOqjEIsuM_7FCmomiDxj36-MWp_V0H06ArGaoqCS_CizIs2AQWuK50RU18-b-1kw7k6vOsCrMUKdLp6NN9VKIAN1NIOxYgcqaptZPmyidEeuvV6K4N7hlY_s9N7mcZg"">
+  <picture>
+    <source media=""(prefers-color-scheme: dark)"" srcset=""https://cursor.com/fix-in-web-dark.svg"">
+    <source media=""(prefers-color-scheme: light)"" srcset=""https://cursor.com/fix-in-web-light.svg"">
+    <img alt=""Fix in Web"" src=""https://cursor.com/fix-in-web.svg"">
+  </picture>
+</a>
+
+</details>
+
+---
+
+"
+3231949586,32656,feat(swagger): Add Swagger annotations to Batch 1 - Core Authentication & User Management,"## Summary
+Progressive implementation of Swagger/OpenAPI annotations for REST endpoints - Batch 1
+
+This PR adds comprehensive Swagger annotations to **15 REST resource classes** focused on core authentication and user management APIs that most applications depend on.
+
+## 🔗 Foundation Dependency
+**⚠️ This PR depends on the infrastructure established in PR #32561**
+
+- **Foundation PR**: [#32561 - Progressive Swagger annotations infrastructure](https://github.com/dotCMS/core/pull/32561)
+- **Requirement**: PR #32561 must be merged before this PR can be reviewed/merged
+- **Why**: This PR uses the `@SwaggerCompliant` annotation and progressive testing framework created in #32561
+
+## ⚠️ IMPORTANT: Batch Rollout Process
+**This PR is part of a progressive 8-batch rollout strategy established in PR #32561.**
+
+- 🔧 **Foundation**: [PR #32561](https://github.com/dotCMS/core/pull/32561) - Must be merged first
+- ✅ **Batch 1**: Ready for review after foundation is merged (this PR)
+- ⏳ **Batch 2**: [PR #32657](https://github.com/dotCMS/core/pull/32657) - Keep in draft until Batch 1 is merged
+- ⏳ **Batch 3-8**: Keep in draft until previous batch is merged
+- ⏳ **Batch 9**: [PR #32664](https://github.com/dotCMS/core/pull/32664) - Keep in draft until Batch 8 is merged
+
+**Do not remove draft state from subsequent batches until the previous batch has been successfully merged.**
+
+## 🎯 Automatic Testing Integration
+This PR leverages the infrastructure from #32561 to enable **automatic testing**:
+
+- ✅ **Before this PR**: These 15 resources are not tested by compliance tests
+- ✅ **After this PR**: Resources are automatically discovered and tested via `@SwaggerCompliant` annotations
+- ✅ **Cumulative**: Future batches will test these resources plus their new ones
+
+```bash
+# Test only Batch 1 classes (using infrastructure from #32561)
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationComplianceTest -Dtest.batch.max=1
+```
+
+## Batch 1: Core Authentication & User Management (15 classes)
+**Theme**: Essential user and authentication APIs that most applications depend on
+
+### Authentication Resources (7 classes)
+- `AuthenticationResource` - Core authentication endpoints
+- `ApiTokenResource` - API token management  
+- `LoginFormResource` - Login form handling
+- `LogoutResource` - User logout functionality
+- `CreateJsonWebTokenResource` - JWT token creation
+- `ForgotPasswordResource` - Password reset requests
+- `ResetPasswordResource` - Password reset completion
+
+### User Management Resources (3 classes)
+- `UserResource` - User CRUD operations
+- `PersonaResource` - User persona management
+- `PersonalizationResource` - User personalization settings
+
+### System Role Resources (2 classes)
+- `RoleResource` - Role management
+- `PermissionResource` - Permission handling
+
+### Legacy User Resources (3 classes)
+- `UserResource` (legacy) - Legacy user operations
+- `RoleResource` (legacy) - Legacy role operations
+- `DotSamlResource` - SAML authentication
+
+## 🧪 Testing Strategy
+Uses the progressive testing framework established in #32561:
+
+```bash
+# Test only Batch 1 classes (after #32561 is merged)
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationComplianceTest -Dtest.batch.max=1
+
+# Test annotation validation
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationValidationTest -Dtest.batch.max=1
+```
+
+## 📋 Example Annotation Usage
+This PR adds `@SwaggerCompliant` annotations (from #32561) to mark resources as properly documented:
+
+```java
+@SwaggerCompliant(value = ""Core authentication and user management APIs"", batch = 1)
+@Tag(name = ""Authentication"")
+@Path(""/v1/authentication"")
+public class AuthenticationResource {
+    // Properly annotated endpoints...
+}
+```
+
+## 🎯 Impact
+- ✅ Improves API documentation for core authentication flows
+- ✅ Enables automatic testing of these 15 resources (via #32561 infrastructure)
+- ✅ Enables better developer experience with OpenAPI spec generation
+- ✅ Maintains backward compatibility
+- ✅ Follows established annotation patterns and standards
+
+## 📊 Progress Tracking
+This PR is **Batch 1 of 8** in the progressive rollout:
+- **Total Resources**: 115 across 8 batches
+- **This Batch**: 15 resources (13% of total)
+- **Next**: Batch 2 (Content Management Core) - 14 resources
+
+## 🔗 Related PRs
+- **Foundation**: [#32561 - Progressive Swagger annotations infrastructure](https://github.com/dotCMS/core/pull/32561) ← **Must merge first**
+- **Next**: [#32657 - Batch 2 (Content Management Core)](https://github.com/dotCMS/core/pull/32657)
+- **Complete chain**: See PR #32561 for full rollout plan
+
+## ⚠️ Merge Requirements
+1. **Foundation PR #32561 must be merged first**
+2. This PR can then be reviewed and merged
+3. After this PR is merged, remove draft state from Batch 2 PR #32657
+4. Continue sequential rollout through Batch 8
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>",Claude_Code,1236198,spbolton,open,2025-07-15T11:46:41Z,,,3729629.0,https://api.github.com/repos/dotCMS/core,https://github.com/dotCMS/core/pull/32656,3083336640,3231949586,cursor[bot],Bot,COMMENTED,2025-08-04T09:10:12Z,
+3231949586,32656,feat(swagger): Add Swagger annotations to Batch 1 - Core Authentication & User Management,"## Summary
+Progressive implementation of Swagger/OpenAPI annotations for REST endpoints - Batch 1
+
+This PR adds comprehensive Swagger annotations to **15 REST resource classes** focused on core authentication and user management APIs that most applications depend on.
+
+## 🔗 Foundation Dependency
+**⚠️ This PR depends on the infrastructure established in PR #32561**
+
+- **Foundation PR**: [#32561 - Progressive Swagger annotations infrastructure](https://github.com/dotCMS/core/pull/32561)
+- **Requirement**: PR #32561 must be merged before this PR can be reviewed/merged
+- **Why**: This PR uses the `@SwaggerCompliant` annotation and progressive testing framework created in #32561
+
+## ⚠️ IMPORTANT: Batch Rollout Process
+**This PR is part of a progressive 8-batch rollout strategy established in PR #32561.**
+
+- 🔧 **Foundation**: [PR #32561](https://github.com/dotCMS/core/pull/32561) - Must be merged first
+- ✅ **Batch 1**: Ready for review after foundation is merged (this PR)
+- ⏳ **Batch 2**: [PR #32657](https://github.com/dotCMS/core/pull/32657) - Keep in draft until Batch 1 is merged
+- ⏳ **Batch 3-8**: Keep in draft until previous batch is merged
+- ⏳ **Batch 9**: [PR #32664](https://github.com/dotCMS/core/pull/32664) - Keep in draft until Batch 8 is merged
+
+**Do not remove draft state from subsequent batches until the previous batch has been successfully merged.**
+
+## 🎯 Automatic Testing Integration
+This PR leverages the infrastructure from #32561 to enable **automatic testing**:
+
+- ✅ **Before this PR**: These 15 resources are not tested by compliance tests
+- ✅ **After this PR**: Resources are automatically discovered and tested via `@SwaggerCompliant` annotations
+- ✅ **Cumulative**: Future batches will test these resources plus their new ones
+
+```bash
+# Test only Batch 1 classes (using infrastructure from #32561)
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationComplianceTest -Dtest.batch.max=1
+```
+
+## Batch 1: Core Authentication & User Management (15 classes)
+**Theme**: Essential user and authentication APIs that most applications depend on
+
+### Authentication Resources (7 classes)
+- `AuthenticationResource` - Core authentication endpoints
+- `ApiTokenResource` - API token management  
+- `LoginFormResource` - Login form handling
+- `LogoutResource` - User logout functionality
+- `CreateJsonWebTokenResource` - JWT token creation
+- `ForgotPasswordResource` - Password reset requests
+- `ResetPasswordResource` - Password reset completion
+
+### User Management Resources (3 classes)
+- `UserResource` - User CRUD operations
+- `PersonaResource` - User persona management
+- `PersonalizationResource` - User personalization settings
+
+### System Role Resources (2 classes)
+- `RoleResource` - Role management
+- `PermissionResource` - Permission handling
+
+### Legacy User Resources (3 classes)
+- `UserResource` (legacy) - Legacy user operations
+- `RoleResource` (legacy) - Legacy role operations
+- `DotSamlResource` - SAML authentication
+
+## 🧪 Testing Strategy
+Uses the progressive testing framework established in #32561:
+
+```bash
+# Test only Batch 1 classes (after #32561 is merged)
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationComplianceTest -Dtest.batch.max=1
+
+# Test annotation validation
+./mvnw test -pl :dotcms-core -Dtest=RestEndpointAnnotationValidationTest -Dtest.batch.max=1
+```
+
+## 📋 Example Annotation Usage
+This PR adds `@SwaggerCompliant` annotations (from #32561) to mark resources as properly documented:
+
+```java
+@SwaggerCompliant(value = ""Core authentication and user management APIs"", batch = 1)
+@Tag(name = ""Authentication"")
+@Path(""/v1/authentication"")
+public class AuthenticationResource {
+    // Properly annotated endpoints...
+}
+```
+
+## 🎯 Impact
+- ✅ Improves API documentation for core authentication flows
+- ✅ Enables automatic testing of these 15 resources (via #32561 infrastructure)
+- ✅ Enables better developer experience with OpenAPI spec generation
+- ✅ Maintains backward compatibility
+- ✅ Follows established annotation patterns and standards
+
+## 📊 Progress Tracking
+This PR is **Batch 1 of 8** in the progressive rollout:
+- **Total Resources**: 115 across 8 batches
+- **This Batch**: 15 resources (13% of total)
+- **Next**: Batch 2 (Content Management Core) - 14 resources
+
+## 🔗 Related PRs
+- **Foundation**: [#32561 - Progressive Swagger annotations infrastructure](https://github.com/dotCMS/core/pull/32561) ← **Must merge first**
+- **Next**: [#32657 - Batch 2 (Content Management Core)](https://github.com/dotCMS/core/pull/32657)
+- **Complete chain**: See PR #32561 for full rollout plan
+
+## ⚠️ Merge Requirements
+1. **Foundation PR #32561 must be merged first**
+2. This PR can then be reviewed and merged
+3. After this PR is merged, remove draft state from Batch 2 PR #32657
+4. Continue sequential rollout through Batch 8
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>",Claude_Code,1236198,spbolton,open,2025-07-15T11:46:41Z,,,3729629.0,https://api.github.com/repos/dotCMS/core,https://github.com/dotCMS/core/pull/32656,3084119459,3231949586,wezell,User,APPROVED,2025-08-04T13:06:55Z,"If it builds and passes tests, lgtm"
